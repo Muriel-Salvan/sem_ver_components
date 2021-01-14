@@ -1,0 +1,56 @@
+name: continuous-integration
+on:
+  - push
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check-out code
+        uses: actions/checkout@v2
+
+      - name: Install Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+
+      - name: Install dependencies
+        run: bundle install
+
+      # TODO
+      # - name: Run unit tests
+      #   run: bundle exec rspec --format documentation
+
+      - name: Test packaging
+        run: bundle exec gem build sem_ver_components.gemspec
+
+  package:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check-out code
+        uses: actions/checkout@v2
+
+      - name: Check if CI needs to be skipped
+        uses: mstachniuk/ci-skip@v1
+        with:
+          fail-fast: true
+
+      - name: Install Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+
+      - name: Install semantic-release
+        run: npm install @semantic-release/git @semantic-release/changelog @semantic-release/exec semantic-release-rubygem -D
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Semantic releasing
+        run: npx semantic-release

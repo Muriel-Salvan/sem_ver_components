@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
   # Development dependencies (tests, build)
   # Test framework
   spec.add_development_dependency 'rspec', '~> 3.10'
+  # Automatic semantic releasing
+  spec.add_development_dependency 'sem_ver_components', '~> 0.0'
 end
