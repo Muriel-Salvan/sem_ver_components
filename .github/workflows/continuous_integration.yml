@@ -55,4 +55,4 @@ jobs:
       - name: Semantic releasing
         run: npx semantic-release
         env:
-          - GEM_HOST_API_KEY: ${{secrets.GEM_HOST_API_KEY}}
+          GEM_HOST_API_KEY: ${{secrets.GEM_HOST_API_KEY}}
