@@ -1,3 +1,9 @@
+# [v0.1.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.1.0...v0.1.1) (2021-01-15 15:44:43)
+
+### Patches
+
+* [Handled the case when no commit is returned for analyze](https://github.com/Muriel-Salvan/sem_ver_components/commit/de93d77209cd4f1d120beb45e6ccf0e83472d2d1)
+
 # [v0.1.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.0.2...v0.1.0) (2021-01-15 14:38:32)
 
 ### Patches
