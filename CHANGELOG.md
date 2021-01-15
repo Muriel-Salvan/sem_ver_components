@@ -1,3 +1,9 @@
+# [v0.1.2](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.1.1...v0.1.2) (2021-01-15 16:26:08)
+
+### Patches
+
+* [[Fix] Changelog had duplicated entries](https://github.com/Muriel-Salvan/sem_ver_components/commit/25934e962725698f8f375f6a1455b814b6dbeca1)
+
 # [v0.1.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.1.0...v0.1.1) (2021-01-15 15:44:43)
 
 ### Patches
