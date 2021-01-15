@@ -14,6 +14,9 @@ module SemVerComponents
         bump_level = commits_info.map { |commit_info| commit_info[:components_bump_levels].values }.flatten(1).max
         puts(
           case bump_level
+          when nil
+            # No commit. Return nothing to bump.
+            ''
           when 0
             'patch'
           when 1
