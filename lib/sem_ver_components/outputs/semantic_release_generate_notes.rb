@@ -41,20 +41,44 @@ module SemVerComponents
           end
         git_url = @local_git.git.remote('origin').url
         git_url = git_url[0..-5] if git_url.end_with?('.git')
+        # Reference merge commits: merged commits will not be part of the changelog, but their bump level will be taken into account when reporting the merge commit.
+        # List of merged commits' shas, per merge commit sha.
+        # Hash< String, Array< String > >
+        merge_commits = {}
+        commits_info.each do |commit_info|
+          git_commit = commit_info[:commit]
+          git_commit_parents = git_commit.parents
+          # In the case of a merge commit, reference all commits that are part of this merge commit, directly from the graph
+          if git_commit_parents.size > 1
+            git_commit_sha = git_commit.sha
+            merge_commits[git_commit_sha] = @local_git.git_log.between(@local_git.git.merge_base(*git_commit_parents.map(&:sha)).first.sha, git_commit_sha)[1..-1].map(&:sha)
+          end
+        end
+        commits_to_ignore = merge_commits.values.flatten(1).sort.uniq
         # Group commits per bump level, per component
         # Hash< String or nil, Hash< Integer, Array<Git::Object::Commit> >
         commits_per_component = {}
-        # Also reference commits to be ignored: commits that are part of a merge commit
-        merged_commits = []
         commits_info.each do |commit_info|
           git_commit = commit_info[:commit]
-          commit_info[:components_bump_levels].each do |component, bump_level|
+          git_commit_sha = git_commit.sha
+          # Don't put merged commits as we consider the changelog should contain the merge commit comment.
+          next if commits_to_ignore.include?(git_commit_sha)
+          components_bump_levels = commit_info[:components_bump_levels]
+          # If we are dealing with a merge commit, consider the components' bump levels of the merged commits
+          if merge_commits.key?(git_commit_sha)
+            merge_commits[git_commit_sha].each do |merged_commit_sha|
+              components_bump_levels = components_bump_levels.merge(
+                commits_info.find { |search_commit_info| search_commit_info[:commit].sha == merged_commit_sha }[:components_bump_levels]
+              ) do |component, bump_level_1, bump_level_2|
+                [bump_level_1, bump_level_2].max
+              end
+            end
+          end
+          components_bump_levels.each do |component, bump_level|
             commits_per_component[component] = {} unless commits_per_component.key?(component)
             commits_per_component[component][bump_level] = [] unless commits_per_component[component].key?(bump_level)
             commits_per_component[component][bump_level] << git_commit
           end
-          # In the case of a merge commit, reference all commits that are part of this merge commit, directly from the graph
-          merged_commits.concat(@local_git.git_log.between(@local_git.git.merge_base(*git_commit.parents.map(&:sha)).first.sha, git_commit.sha)[1..-1].map(&:sha)) if git_commit.parents.size > 1
         end
         puts "# [v#{new_version}](#{git_url}/compare/#{@local_git.git_from}...v#{new_version}) (#{Time.now.utc.strftime('%F %T')})"
         puts
@@ -78,8 +102,6 @@ module SemVerComponents
             # Hash< String, String >
             commit_lines = {}
             commits.each do |commit|
-              # Don't put merged commits as we consider the changelog should contain the merge commit comment.
-              next if merged_commits.include?(commit.sha)
               message_lines = commit.message.split("\n")
               commit_line = message_lines.first
               if commit_line =~ /^Merge pull request .+$/
