@@ -45,10 +45,10 @@ module SemVerComponents
           components_bump_levels[component] = [] unless components_bump_levels.key?(component)
           components_bump_levels[component] <<
             case commit_type.downcase
-            when 'feat', 'feature'
-              1
-            when 'break', 'breaking'
+            when 'break', 'breaking', 'major'
               2
+            when 'feat', 'feature', 'minor'
+              1
             else
               0
             end
