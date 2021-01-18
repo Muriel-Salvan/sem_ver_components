@@ -101,6 +101,7 @@ gem 'sem_ver_components'
 ```
 Usage: sem_ver_git [options]
     -f, --from GIT_REF               Git reference from which commits are to be analyzed (defaults to first commit)
+    -g, --git_hosting GIT_HOSTING    Specify which kind of git hosting is used. Used to format URLs to commits and comparisons. Possible values are bitbucket, github. (defaults to github)
     -h, --help                       Display this help
     -o, --output OUTPUT              Specify the output format of the analysis. Possible values are info, semantic_release_analyze, semantic_release_generate_notes (defauts to info)
     -r, --repo GIT_URL               Specify the Git URL of the repository to analyze (defaults to .)
