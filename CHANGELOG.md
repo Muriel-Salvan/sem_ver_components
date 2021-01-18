@@ -1,3 +1,9 @@
+# [v0.2.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.2.0...v0.2.1) (2021-01-18 16:58:12)
+
+### Patches
+
+* [Bug correction in the way Bitbucket handles URLs](https://github.com/Muriel-Salvan/sem_ver_components/commit/8f75a98871cc4dc396cd1813c5d56a0d14d0ecc3)
+
 # [v0.2.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.1.2...0.2.0) (2021-01-18 16:15:29)
 
 ### Features
