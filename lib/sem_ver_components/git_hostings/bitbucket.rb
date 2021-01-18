@@ -20,7 +20,7 @@ module SemVerComponents
       # * *tag_1* (String): The first tag
       # * *tag_2* (String): The second tag
       def compare_url(git_url, tag_1, tag_2)
-        "#{public_url(git_url)}/compare/commits?targetBranch=refs%2Ftags%2F#{tag_2}&sourceBranch=refs%2Ftags%2F#{tag_1}"
+        "#{public_url(git_url)}/compare/commits?targetBranch=refs%2Ftags%2F#{tag_1}&sourceBranch=refs%2Ftags%2F#{tag_2}"
       end
 
       private
