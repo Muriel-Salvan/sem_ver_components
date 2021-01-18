@@ -10,7 +10,7 @@ module SemVerComponents
       # * *git_url* (String): The git URL
       # * *commit_sha* (String): The commit sha
       def commit_url(git_url, commit_sha)
-        "#{git_url}/commits/#{commit_sha}"
+        "#{public_url(git_url)}/commits/#{commit_sha}"
       end
 
       # Get the URL to compare 2 tags
@@ -20,7 +20,26 @@ module SemVerComponents
       # * *tag_1* (String): The first tag
       # * *tag_2* (String): The second tag
       def compare_url(git_url, tag_1, tag_2)
-        "#{git_url}/compare/commits?targetBranch=refs%2Ftags%2F#{tag_2}&sourceBranch=refs%2Ftags%2F#{tag_1}"
+        "#{public_url(git_url)}/compare/commits?targetBranch=refs%2Ftags%2F#{tag_2}&sourceBranch=refs%2Ftags%2F#{tag_1}"
+      end
+
+      private
+
+      # Convert the git remote URL to the public URL
+      #
+      # Parameters::
+      # * *git_url* (String): Git remote URL
+      # Result::
+      # * String: The corresponding public URL
+      def public_url(git_url)
+        if git_url =~ /^(.+)\/scm\/([^\/]+)\/(.+)$/
+          base_url = $1
+          project = $2
+          repo = $3
+          "#{base_url}/projects/#{project}/repos/#{repo}"
+        else
+          git_url
+        end
       end
 
     end
