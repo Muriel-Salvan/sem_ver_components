@@ -80,7 +80,7 @@ module SemVerComponents
             commits_per_component[component][bump_level] << git_commit
           end
         end
-        puts "# [v#{new_version}](#{git_url}/compare/#{@local_git.git_from}...v#{new_version}) (#{Time.now.utc.strftime('%F %T')})"
+        puts "# [v#{new_version}](#{@git_hosting.compare_url(git_url, @local_git.git_from, new_version)}) (#{Time.now.utc.strftime('%F %T')})"
         puts
         commits_per_component.sort_by { |component, _component_info| component || '' }.each do |(component, component_info)|
           puts "## #{component.nil? ? 'Global changes' : "Changes for #{component}"}\n" if commits_per_component.size > 1 || !component.nil?
@@ -112,7 +112,7 @@ module SemVerComponents
               commit_lines[commit_line] = commit.sha
             end
             commit_lines.each do |commit_line, commit_sha|
-              puts "* [#{commit_line}](#{git_url}/commit/#{commit_sha})"
+              puts "* [#{commit_line}](#{@git_hosting.commit_url(git_url, commit_sha)})"
             end
             puts
           end
