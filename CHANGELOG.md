@@ -1,3 +1,9 @@
+# [v0.2.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.1.2...0.2.0) (2021-01-18 16:15:29)
+
+### Features
+
+* [[Feature] Add git hostings for URLs syntax in change logs](https://github.com/Muriel-Salvan/sem_ver_components/commit/2c8e0d3fc01ec2bf2fc72763d9f6ddb87cb10677)
+
 # [v0.1.2](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.1.1...v0.1.2) (2021-01-15 16:26:08)
 
 ### Patches
