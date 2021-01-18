@@ -1,3 +1,9 @@
+# [v0.2.2](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.2.1...v0.2.2) (2021-01-18 17:35:06)
+
+### Patches
+
+* [Typo in Bitbucket tags order](https://github.com/Muriel-Salvan/sem_ver_components/commit/da705639ff191085d6d731daa3b58c0e020bb59a)
+
 # [v0.2.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.2.0...v0.2.1) (2021-01-18 16:58:12)
 
 ### Patches
