@@ -17,7 +17,7 @@ git_hosting_plugins = SemVerComponents::Plugins.new(:git_hostings)
 OptionParser.new do |opts|
   opts.banner = "Usage: #{File.basename($0)} [options]"
   opts.on('-f', '--from GIT_REF', 'Git reference from which commits are to be analyzed (defaults to first commit)') do |git_ref|
-    git_from = git_ref
+    git_from = git_ref.empty? ? nil : git_ref
   end
   opts.on('-g', '--git_hosting GIT_HOSTING', "Specify which kind of git hosting is used. Used to format URLs to commits and comparisons. Possible values are #{git_hosting_plugins.list.sort.join(', ')}. (defaults to #{git_hosting})") do |git_hosting_str|
     git_hosting = git_hosting_str.to_sym
