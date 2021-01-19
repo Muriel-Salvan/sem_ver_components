@@ -1,3 +1,9 @@
+# [v0.2.3](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.2.2...v0.2.3) (2021-01-19 10:01:36)
+
+### Patches
+
+* [Make sure an empty git_from is treated like no git_from option](https://github.com/Muriel-Salvan/sem_ver_components/commit/afaa9d1be3a7f25b93775881e0c7c6d13b7ce559)
+
 # [v0.2.2](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.2.1...v0.2.2) (2021-01-18 17:35:06)
 
 ### Patches
