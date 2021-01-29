@@ -1,3 +1,9 @@
+# [v0.3.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.2.3...v0.3.0) (2021-01-29 12:16:29)
+
+### Features
+
+* [[Feature] Handle pre-release versions in the info when not releasing …](https://github.com/Muriel-Salvan/sem_ver_components/commit/6d4864e8e4543858b717af475f17a0415bdddca9)
+
 # [v0.2.3](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.2.2...v0.2.3) (2021-01-19 10:01:36)
 
 ### Patches
