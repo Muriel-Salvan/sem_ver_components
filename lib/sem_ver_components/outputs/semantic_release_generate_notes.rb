@@ -1,4 +1,5 @@
 require 'time'
+require 'sem_ver_components/semver'
 
 module SemVerComponents
 
@@ -14,31 +15,10 @@ module SemVerComponents
       #   * *commit* (Git::Object::Commit): Corresponding git commit
       def process(commits_info)
         # Compute new version
-        new_version =
-          if @local_git.git_from.nil?
-            '0.0.1'
-          elsif @local_git.git_from =~ /^v(\d+)\.(\d+)\.(\d+)$/
-            major = Integer($1)
-            minor = Integer($2)
-            patch = Integer($3)
-            bump_level = commits_info.map { |commit_info| commit_info[:components_bump_levels].values }.flatten(1).max
-            case bump_level
-            when 0
-              patch += 1
-            when 1
-              minor += 1
-              patch = 0
-            when 2
-              major += 1
-              minor = 0
-              patch = 0
-            else
-              raise "Invalid bump level: #{bump_level}"
-            end
-            "#{major}.#{minor}.#{patch}"
-          else
-            raise "Can't generate release notes from a git ref that is not a semantic release (#{@local_git.git_from})"
-          end
+        new_version = Semver.next_version_from(
+          Semver.version_from_git_ref(@local_git.git_from),
+          commits_info.map { |commit_info| commit_info[:components_bump_levels].values }.flatten(1).max
+        )
         git_url = @local_git.git.remote('origin').url
         git_url = git_url[0..-5] if git_url.end_with?('.git')
         # Reference merge commits: merged commits will not be part of the changelog, but their bump level will be taken into account when reporting the merge commit.

@@ -60,6 +60,14 @@ module SemVerComponents
       end
     end
 
+    # Is the git to ref part of a release branch?
+    #
+    # Result::
+    # * Boolean: Is the git to ref part of a release branch?
+    def on_release_branch?
+      @git_to == 'master'
+    end
+
   end
 
 end

@@ -1,3 +1,5 @@
+require 'sem_ver_components/semver'
+
 module SemVerComponents
 
   module Outputs
@@ -12,11 +14,12 @@ module SemVerComponents
       #   * *commit* (Git::Object::Commit): Corresponding git commit
       def process(commits_info)
         # Display bump levels per component
-        commits_info.inject({}) do |components_bump_levels, commit_info|
+        bumps_per_component = commits_info.inject({}) do |components_bump_levels, commit_info|
           components_bump_levels.merge(commit_info[:components_bump_levels]) do |_component, bump_level_1, bump_level_2|
             [bump_level_1, bump_level_2].max
           end
-        end.each do |component, bump_level|
+        end
+        bumps_per_component.each do |component, bump_level|
           puts "#{component.nil? ? 'Global' : component}: Bump #{
               case bump_level
               when 0
@@ -29,6 +32,15 @@ module SemVerComponents
                 raise "Invalid bump level: #{bump_level}"
               end
             } version"
+        end
+        # Compute new version
+        global_bump_level = bumps_per_component.values.max
+        if global_bump_level.nil?
+          puts 'No next version'
+        else
+          puts "Next global version#{@local_git.on_release_branch? ? '' : ' (not on release branch)'}: #{
+            Semver.next_version_from(Semver.version_from_git_ref(@local_git.git_from), global_bump_level, pre_release: !@local_git.on_release_branch?)
+          }"
         end
       end
 
