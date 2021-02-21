@@ -1,3 +1,9 @@
+# [v0.3.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.3.0...v0.3.1) (2021-02-21 18:23:01)
+
+### Patches
+
+* [Corrected bug when git history is not linear](https://github.com/Muriel-Salvan/sem_ver_components/commit/7de6a8ff49817dfd445d014895e0b5ec8ab59bac)
+
 # [v0.3.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.2.3...v0.3.0) (2021-01-29 12:16:29)
 
 ### Features
