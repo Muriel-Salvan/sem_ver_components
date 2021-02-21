@@ -47,10 +47,14 @@ module SemVerComponents
           # If we are dealing with a merge commit, consider the components' bump levels of the merged commits
           if merge_commits.key?(git_commit_sha)
             merge_commits[git_commit_sha].each do |merged_commit_sha|
-              components_bump_levels = components_bump_levels.merge(
-                commits_info.find { |search_commit_info| search_commit_info[:commit].sha == merged_commit_sha }[:components_bump_levels]
-              ) do |component, bump_level_1, bump_level_2|
-                [bump_level_1, bump_level_2].max
+              merged_commit_info = commits_info.find { |search_commit_info| search_commit_info[:commit].sha == merged_commit_sha }
+              # If the merged commit is not part of the list of commits, it means that the merge commit was not rebased on the previous release tag.
+              # In this case we can have some merged commits that are already part of the previous release.
+              # So we can ignore them.
+              unless merged_commit_info.nil?
+                components_bump_levels = components_bump_levels.merge(merged_commit_info[:components_bump_levels]) do |component, bump_level_1, bump_level_2|
+                  [bump_level_1, bump_level_2].max
+                end
               end
             end
           end
