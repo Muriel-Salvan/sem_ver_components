@@ -1,3 +1,9 @@
+# [v0.4.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.3.1...v0.4.0) (2025-04-21 18:39:17)
+
+### Features
+
+* [[feature] Bump dependencies versions](https://github.com/Muriel-Salvan/sem_ver_components/commit/daee5bb802ec73dd263306c87694379a3e2f5473)
+
 # [v0.3.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.3.0...v0.3.1) (2021-02-21 18:23:01)
 
 ### Patches
