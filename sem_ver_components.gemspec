@@ -18,11 +18,5 @@ Gem::Specification.new do |spec|
     spec.executables << File.basename(exec_name)
   end
 
-  spec.add_dependency 'git', '~> 3.0'
-
-  # Development dependencies (tests, build)
-  # Test framework
-  spec.add_development_dependency 'rspec', '~> 3.13'
-  # Automatic semantic releasing
-  spec.add_development_dependency 'sem_ver_components', '~> 0.0'
+  spec.add_dependency 'git', '~> 4.3'
 end
