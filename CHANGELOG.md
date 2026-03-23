@@ -1,3 +1,9 @@
+# [v0.4.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.4.0...v0.4.1) (2026-03-23 10:52:12)
+
+### Patches
+
+* [chore(deps): update dependencies and CI workflows](https://github.com/Muriel-Salvan/sem_ver_components/commit/6ea28abcd092cf2adade840e0d92869a04e197da)
+
 # [v0.4.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.3.1...v0.4.0) (2025-04-21 18:39:17)
 
 ### Features
