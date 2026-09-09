@@ -19,6 +19,10 @@ Layout/MultilineMethodCallIndentation:
 Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
 
+# Some base classes are just markers for their subclasses, and are documented with comments only
+Lint/EmptyClass:
+  AllowComments: true
+
 # It's ok to have long methods while keeping readability
 Metrics/AbcSize:
   Max: 120
