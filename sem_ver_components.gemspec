@@ -18,5 +18,5 @@ Gem::Specification.new do |spec|
     spec.executables << File.basename(exec_name)
   end
 
-  spec.add_dependency 'git', '~> 4.3'
+  spec.add_dependency 'git', '~> 5.4'
 end

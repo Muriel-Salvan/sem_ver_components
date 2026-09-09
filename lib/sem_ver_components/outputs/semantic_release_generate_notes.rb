@@ -31,7 +31,7 @@ module SemVerComponents
           # In the case of a merge commit, reference all commits that are part of this merge commit, directly from the graph
           if git_commit_parents.size > 1
             git_commit_sha = git_commit.sha
-            merge_commits[git_commit_sha] = @local_git.git_log.between(@local_git.git.merge_base(*git_commit_parents.map(&:sha)).first.sha, git_commit_sha)[1..-1].map(&:sha)
+            merge_commits[git_commit_sha] = @local_git.git.log(nil).between(@local_git.git.merge_base(*git_commit_parents.map(&:sha)).first.sha, git_commit_sha).execute[1..-1].map(&:sha)
           end
         end
         commits_to_ignore = merge_commits.values.flatten(1).sort.uniq

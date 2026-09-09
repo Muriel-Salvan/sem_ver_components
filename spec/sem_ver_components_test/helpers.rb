@@ -18,11 +18,36 @@ module SemVerComponentsTest
       Dir.mktmpdir do |temp_dir|
         git_repo = File.join(temp_dir, 'git_repo')
         git = Git.init(git_repo)
-        git.config('user.email', 'test@example.com')
-        git.config('user.name', 'Test User')
+        git.config_set('user.email', 'test@example.com')
+        git.config_set('user.name', 'Test User')
         commits.each { |commit| create_git_commit(git, git_repo, commit) }
         block.call(git_repo)
       end
+    end
+
+    # Setup a temporary git repository containing an initial commit followed by a single change commit, and execute a block with it.
+    # This is a convenient wrapper on top of with_git_repo to test a single change on a fresh repository.
+    # The repository is deleted after the block execution.
+    #
+    # Parameters::
+    # * *comment* (String): The commit message of the change, including any enclosing markers like in '[feat] Add a feature'
+    # * *files* (Hash<String, String>): Files to be part of the change commit, mapped by path (relative to the repository root) [default: { 'change.txt' => 'A change' }]
+    # * *block* (Proc): Code to be executed with the created repository:
+    #   * *git_repo* (String): Path of the created git repository
+    def with_git_change(comment:, files: { 'change.txt' => 'A change' }, &block)
+      with_git_repo(
+        commits: [
+          {
+            comment: 'Initial commit',
+            files: { 'README.md' => 'Test repository' }
+          },
+          {
+            comment: comment,
+            files: files
+          }
+        ],
+        &block
+      )
     end
 
     # Run a CLI of the gem with given arguments, and expect it to succeed

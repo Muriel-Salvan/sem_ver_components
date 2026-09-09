@@ -23,9 +23,9 @@ module SemVerComponents
     # Keep a cache of it.
     #
     # Result::
-    # * Array< Git::Object::Commit >: Full git log
+    # * Git::Log::Result: Full git log (Enumerable of Git::Object::Commit)
     def git_log
-      @git_log = @git.log(nil) unless defined?(@git_log)
+      @git_log = @git.log(nil).execute unless defined?(@git_log)
       @git_log
     end
 
@@ -36,7 +36,7 @@ module SemVerComponents
     #   * *components_bump_levels* (Hash<String or nil, Integer>): Set of bump levels (0: patch, 1: minor, 2: major) per component name (nil for global)
     #   * *commit* (Git::Object::Commit): Corresponding git commit
     def analyze_commits
-      git_log.between(git_from.nil? ? git_log.last.sha : git_from, git_to).map do |git_commit|
+      @git.log(nil).between(git_from.nil? ? git_log.last.sha : git_from, git_to).execute.map do |git_commit|
         # Analyze the message
         # Always consider a minimum of global patch bump per commit.
         components_bump_levels = { nil => [0] }
