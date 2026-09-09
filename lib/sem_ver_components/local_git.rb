@@ -60,8 +60,7 @@ module SemVerComponents
     #
     # @return [Boolean] Is the git to ref part of a release branch?
     def on_release_branch?
-      # TODO: Handle `main` as well
-      @git_to == 'master'
+      %w[master main].include?(@git_to)
     end
   end
 end
