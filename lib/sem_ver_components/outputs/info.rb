@@ -1,11 +1,8 @@
 require 'sem_ver_components/semver'
 
 module SemVerComponents
-
   module Outputs
-
     class Info < Output
-
       # Process commits info
       #
       # Parameters::
@@ -38,14 +35,11 @@ module SemVerComponents
         if global_bump_level.nil?
           puts 'No next version'
         else
-          puts "Next global version#{@local_git.on_release_branch? ? '' : ' (not on release branch)'}: #{
+          puts "Next global version#{' (not on release branch)' unless @local_git.on_release_branch?}: #{
             Semver.next_version_from(Semver.version_from_git_ref(@local_git.git_from), global_bump_level, pre_release: !@local_git.on_release_branch?)
           }"
         end
       end
-
     end
-
   end
-
 end

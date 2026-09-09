@@ -1,9 +1,6 @@
 module SemVerComponents
-
   module GitHostings
-
     class Github < GitHosting
-
       # Get the URL to a given commit sha
       #
       # Parameters::
@@ -22,9 +19,6 @@ module SemVerComponents
       def compare_url(git_url, tag_1, tag_2)
         "#{git_url}/compare/#{tag_1}...#{tag_2}"
       end
-
     end
-
   end
-
 end

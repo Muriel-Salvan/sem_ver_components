@@ -1,10 +1,8 @@
 require 'git'
 
 module SemVerComponents
-
   class LocalGit
-
-    attr_reader *%i[git_from git_to git]
+    attr_reader(*%i[git_from git_to git])
 
     # Constructor
     #
@@ -41,7 +39,7 @@ module SemVerComponents
         # Always consider a minimum of global patch bump per commit.
         components_bump_levels = { nil => [0] }
         git_commit.message.scan(/\[([^\]]+)\]/).flatten(1).each do |commit_label|
-          commit_type, component = commit_label =~ /^(.+)\((.+)\)$/ ? [$1, $2] : [commit_label, nil]
+          commit_type, component = commit_label =~ /^(.+)\((.+)\)$/ ? [::Regexp.last_match(1), ::Regexp.last_match(2)] : [commit_label, nil]
           components_bump_levels[component] = [] unless components_bump_levels.key?(component)
           components_bump_levels[component] <<
             case commit_type.downcase
@@ -55,7 +53,7 @@ module SemVerComponents
         end
         {
           commit: git_commit,
-          components_bump_levels: Hash[components_bump_levels.map { |component, component_bump_levels| [component, component_bump_levels.max] }]
+          components_bump_levels: components_bump_levels.to_h { |component, component_bump_levels| [component, component_bump_levels.max] }
         }
       end
     end
@@ -67,7 +65,5 @@ module SemVerComponents
     def on_release_branch?
       @git_to == 'master'
     end
-
   end
-
 end

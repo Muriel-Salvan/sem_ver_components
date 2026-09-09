@@ -1,23 +1,21 @@
 module SemVerComponents
-
   class Plugins
-
     # Constructor
     #
     # Parameters::
     # * *plugins_type* (Symbol): Plugins type we are parsing
     def initialize(plugins_type)
       @plugins_type = plugins_type
-      @plugins = Hash[Dir.glob("#{__dir__}/#{plugins_type}/*.rb").map do |plugin_file|
+      @plugins = Dir.glob("#{__dir__}/#{plugins_type}/*.rb").to_h do |plugin_file|
         plugin_name = File.basename(plugin_file, '.rb').to_sym
         require "#{__dir__}/#{plugins_type}/#{plugin_name}.rb"
         [
           plugin_name,
-          SemVerComponents.
-            const_get(plugins_type.to_s.split('_').collect(&:capitalize).join.to_sym).
-            const_get(plugin_name.to_s.split('_').collect(&:capitalize).join.to_sym)
+          SemVerComponents
+            .const_get(plugins_type.to_s.split('_').collect(&:capitalize).join.to_sym)
+            .const_get(plugin_name.to_s.split('_').collect(&:capitalize).join.to_sym)
         ]
-      end]
+      end
     end
 
     # List available plugin names
@@ -37,7 +35,5 @@ module SemVerComponents
     def [](plugin_name)
       @plugins[plugin_name]
     end
-
   end
-
 end

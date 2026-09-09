@@ -1,9 +1,6 @@
 module SemVerComponents
-
   module GitHostings
-
     class Bitbucket < GitHosting
-
       # Get the URL to a given commit sha
       #
       # Parameters::
@@ -32,18 +29,15 @@ module SemVerComponents
       # Result::
       # * String: The corresponding public URL
       def public_url(git_url)
-        if git_url =~ /^(.+)\/scm\/([^\/]+)\/(.+)$/
-          base_url = $1
-          project = $2
-          repo = $3
+        if git_url =~ %r{^(.+)/scm/([^/]+)/(.+)$}
+          base_url = ::Regexp.last_match(1)
+          project = ::Regexp.last_match(2)
+          repo = ::Regexp.last_match(3)
           "#{base_url}/projects/#{project}/repos/#{repo}"
         else
           git_url
         end
       end
-
     end
-
   end
-
 end

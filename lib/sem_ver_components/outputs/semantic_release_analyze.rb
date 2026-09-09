@@ -1,9 +1,6 @@
 module SemVerComponents
-
   module Outputs
-
     class SemanticReleaseAnalyze < Output
-
       # Process commits info
       #
       # Parameters::
@@ -28,9 +25,6 @@ module SemVerComponents
           end
         )
       end
-
     end
-
   end
-
 end

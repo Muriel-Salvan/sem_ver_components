@@ -1,8 +1,6 @@
 module SemVerComponents
-
   # Base class for all output plugins
   class Output
-
     # Constructor
     #
     # Parameters::
@@ -12,7 +10,5 @@ module SemVerComponents
       @local_git = local_git
       @git_hosting = git_hosting
     end
-
   end
-
 end

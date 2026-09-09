@@ -15,18 +15,26 @@ output = :info
 output_plugins = SemVerComponents::Plugins.new(:outputs)
 git_hosting_plugins = SemVerComponents::Plugins.new(:git_hostings)
 OptionParser.new do |opts|
-  opts.banner = "Usage: #{File.basename($0)} [options]"
+  opts.banner = "Usage: #{File.basename($PROGRAM_NAME)} [options]"
   opts.on('-f', '--from GIT_REF', 'Git reference from which commits are to be analyzed (defaults to first commit)') do |git_ref|
     git_from = git_ref.empty? ? nil : git_ref
   end
-  opts.on('-g', '--git_hosting GIT_HOSTING', "Specify which kind of git hosting is used. Used to format URLs to commits and comparisons. Possible values are #{git_hosting_plugins.list.sort.join(', ')}. (defaults to #{git_hosting})") do |git_hosting_str|
+  opts.on(
+    '-g',
+    '--git_hosting GIT_HOSTING',
+    "Specify which kind of git hosting is used. Used to format URLs to commits and comparisons. Possible values are #{git_hosting_plugins.list.sort.join(', ')}. (defaults to #{git_hosting})"
+  ) do |git_hosting_str|
     git_hosting = git_hosting_str.to_sym
   end
   opts.on('-h', '--help', 'Display this help') do
     puts opts
     exit 0
   end
-  opts.on('-o', '--output OUTPUT', "Specify the output format of the analysis. Possible values are #{output_plugins.list.sort.join(', ')} (defauts to #{output})") do |output_str|
+  opts.on(
+    '-o',
+    '--output OUTPUT',
+    "Specify the output format of the analysis. Possible values are #{output_plugins.list.sort.join(', ')} (defauts to #{output})"
+  ) do |output_str|
     output = output_str.to_sym
   end
   opts.on('-r', '--repo GIT_URL', "Specify the Git URL of the repository to analyze (defaults to #{git_repo})") do |git_url|
@@ -36,7 +44,7 @@ OptionParser.new do |opts|
     git_to = git_ref
   end
   opts.on('-v', '--version', 'Display version') do
-    puts "#{File.basename($0)} v#{SemVerComponents::VERSION}"
+    puts "#{File.basename($PROGRAM_NAME)} v#{SemVerComponents::VERSION}"
     exit 0
   end
 end.parse!

@@ -2,11 +2,8 @@ require 'time'
 require 'sem_ver_components/semver'
 
 module SemVerComponents
-
   module Outputs
-
     class SemanticReleaseGenerateNotes < Output
-
       # Process commits info
       #
       # Parameters::
@@ -19,7 +16,7 @@ module SemVerComponents
           Semver.version_from_git_ref(@local_git.git_from),
           commits_info.map { |commit_info| commit_info[:components_bump_levels].values }.flatten(1).max
         )
-        git_url = @local_git.git.remote('origin').url
+        git_url = @local_git.git.remote_list.find { |remote| remote.name == 'origin' }.url.first
         git_url = git_url[0..-5] if git_url.end_with?('.git')
         # Reference merge commits: merged commits will not be part of the changelog, but their bump level will be taken into account when reporting the merge commit.
         # List of merged commits' shas, per merge commit sha.
@@ -29,10 +26,11 @@ module SemVerComponents
           git_commit = commit_info[:commit]
           git_commit_parents = git_commit.parents
           # In the case of a merge commit, reference all commits that are part of this merge commit, directly from the graph
-          if git_commit_parents.size > 1
-            git_commit_sha = git_commit.sha
-            merge_commits[git_commit_sha] = @local_git.git.log(nil).between(@local_git.git.merge_base(*git_commit_parents.map(&:sha)).first.sha, git_commit_sha).execute[1..-1].map(&:sha)
-          end
+          next unless git_commit_parents.size > 1
+
+          git_commit_sha = git_commit.sha
+          merge_commits[git_commit_sha] =
+            @local_git.git.log(nil).between(@local_git.git.merge_base(*git_commit_parents.map(&:sha)).first.sha, git_commit_sha).execute[1..].map(&:sha)
         end
         commits_to_ignore = merge_commits.values.flatten(1).sort.uniq
         # Group commits per bump level, per component
@@ -43,6 +41,7 @@ module SemVerComponents
           git_commit_sha = git_commit.sha
           # Don't put merged commits as we consider the changelog should contain the merge commit comment.
           next if commits_to_ignore.include?(git_commit_sha)
+
           components_bump_levels = commit_info[:components_bump_levels]
           # If we are dealing with a merge commit, consider the components' bump levels of the merged commits
           if merge_commits.key?(git_commit_sha)
@@ -51,10 +50,10 @@ module SemVerComponents
               # If the merged commit is not part of the list of commits, it means that the merge commit was not rebased on the previous release tag.
               # In this case we can have some merged commits that are already part of the previous release.
               # So we can ignore them.
-              unless merged_commit_info.nil?
-                components_bump_levels = components_bump_levels.merge(merged_commit_info[:components_bump_levels]) do |component, bump_level_1, bump_level_2|
-                  [bump_level_1, bump_level_2].max
-                end
+              next if merged_commit_info.nil?
+
+              components_bump_levels = components_bump_levels.merge(merged_commit_info[:components_bump_levels]) do |_component, bump_level_1, bump_level_2|
+                [bump_level_1, bump_level_2].max
               end
             end
           end
@@ -90,7 +89,7 @@ module SemVerComponents
               commit_line = message_lines.first
               if commit_line =~ /^Merge pull request .+$/
                 # Consider the next line as commit line
-                next_line = message_lines[1..-1].join("\n").strip.split("\n").first
+                next_line = message_lines[1..].join("\n").strip.split("\n").first
                 commit_line = next_line unless next_line.nil?
               end
               commit_lines[commit_line] = commit.sha
@@ -102,9 +101,6 @@ module SemVerComponents
           end
         end
       end
-
     end
-
   end
-
 end
