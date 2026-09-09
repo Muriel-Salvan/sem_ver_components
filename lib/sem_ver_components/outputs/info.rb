@@ -1,14 +1,15 @@
 require 'sem_ver_components/semver'
 
 module SemVerComponents
+  # Namespace for all output plugins
   module Outputs
+    # Output plugin displaying components' bump levels and next version info
     class Info < Output
       # Process commits info
       #
-      # Parameters::
-      # * *commits_info* (Array< Hash<Symbol, Object> >): List of commits info:
-      #   * *components_bump_levels* (Hash<String or nil, Integer>): Set of bump levels (0: patch, 1: minor, 2: major) per component name (nil for global)
-      #   * *commit* (Git::Object::Commit): Corresponding git commit
+      # @param commits_info [Array<Hash{Symbol => Object}>] List of commits info:
+      #   - +:components_bump_levels+ [Hash\\{String or nil => Integer}] Set of bump levels (0: patch, 1: minor, 2: major) per component name (nil for global)
+      #   - +:commit+ [Git::Object::Commit] Corresponding git commit
       def process(commits_info)
         # Display bump levels per component
         bumps_per_component = commits_info.inject({}) do |components_bump_levels, commit_info|

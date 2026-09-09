@@ -1,9 +1,9 @@
 module SemVerComponents
+  # Loader of plugin classes available in the plugin directories
   class Plugins
     # Constructor
     #
-    # Parameters::
-    # * *plugins_type* (Symbol): Plugins type we are parsing
+    # @param plugins_type [Symbol] Plugins type we are parsing
     def initialize(plugins_type)
       @plugins_type = plugins_type
       @plugins = Dir.glob("#{__dir__}/#{plugins_type}/*.rb").to_h do |plugin_file|
@@ -20,18 +20,15 @@ module SemVerComponents
 
     # List available plugin names
     #
-    # Result::
-    # * Array<Symbol>: Available plugin names
+    # @return [Array<Symbol>] Available plugin names
     def list
       @plugins.keys
     end
 
     # Get a plugin class
     #
-    # Parameters::
-    # * *plugin_name* (Symbol): The plugin name
-    # Result::
-    # * Class: The corresponding plugin class
+    # @param plugin_name [Symbol] The plugin name
+    # @return [Class] The corresponding plugin class
     def [](plugin_name)
       @plugins[plugin_name]
     end

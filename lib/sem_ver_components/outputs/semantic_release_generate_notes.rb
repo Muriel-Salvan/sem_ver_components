@@ -3,13 +3,13 @@ require 'sem_ver_components/semver'
 
 module SemVerComponents
   module Outputs
+    # Output plugin generating release notes in the semantic-release changelog format
     class SemanticReleaseGenerateNotes < Output
       # Process commits info
       #
-      # Parameters::
-      # * *commits_info* (Array< Hash<Symbol, Object> >): List of commits info:
-      #   * *components_bump_levels* (Hash<String or nil, Integer>): Set of bump levels (0: patch, 1: minor, 2: major) per component name (nil for global)
-      #   * *commit* (Git::Object::Commit): Corresponding git commit
+      # @param commits_info [Array<Hash{Symbol => Object}>] List of commits info:
+      #   - +:components_bump_levels+ [Hash\\{String or nil => Integer}] Set of bump levels (0: patch, 1: minor, 2: major) per component name (nil for global)
+      #   - +:commit+ [Git::Object::Commit] Corresponding git commit
       def process(commits_info)
         # Compute new version
         new_version = Semver.next_version_from(
