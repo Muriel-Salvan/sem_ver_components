@@ -36,9 +36,15 @@ module SemVerComponents
         # Analyze the message
         # Always consider a minimum of global patch bump per commit.
         components_bump_levels = { nil => [0] }
-        # TODO: Extract also tags of the form /^feat: .+$/, with feat, feature, break, breaking. Enahnce existing unit tests to cover those cases as well.
-        git_commit.message.scan(/\[([^\]]+)\]/).flatten(1).each do |commit_label|
-          commit_type, component = commit_label =~ /^(.+)\((.+)\)$/ ? [::Regexp.last_match(1), ::Regexp.last_match(2)] : [commit_label, nil]
+        # Extract tags enclosed in square brackets, like in '[feat] Some change' or '[feat(customers)] Some change'
+        commit_labels = git_commit.message.scan(/\[([^\]]+)\]/).flatten(1).map do |commit_label|
+          commit_label =~ /^(.+)\((.+)\)$/ ? [::Regexp.last_match(1), ::Regexp.last_match(2)] : [commit_label, nil]
+        end
+        # Extract also tags of the form 'type: Some change' or 'type(component): Some change' at the beginning of the message,
+        # like in 'feat: Some change' or 'feat(customers): Some change'
+        conventional_commit_tag = git_commit.message.match(/\A(feat|feature|break|breaking|major|minor|fix|patch|chore)(?:\(([^)]+)\))?:\s+/i)
+        commit_labels << [conventional_commit_tag[1], conventional_commit_tag[2]] unless conventional_commit_tag.nil?
+        commit_labels.each do |commit_type, component|
           components_bump_levels[component] = [] unless components_bump_levels.key?(component)
           components_bump_levels[component] <<
             case commit_type.downcase
