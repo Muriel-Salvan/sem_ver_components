@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 
 gemspec
 
-# Development dependencies (tests, build)
-# Test framework
+# Test dependencies
 gem 'rspec', '~> 3.13'
+gem 'rubocop', '~> 1.86'
+gem 'rubocop-rspec', '~> 3.9'
+gem 'rubocop-yard', '~> 1.1'
+gem 'simplecov', '~> 0.22'
+gem 'simplecov-cobertura', '~> 3.2'

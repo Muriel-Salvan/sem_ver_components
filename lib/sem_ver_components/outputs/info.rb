@@ -1,22 +1,20 @@
 require 'sem_ver_components/semver'
 
 module SemVerComponents
-
+  # Namespace for all output plugins
   module Outputs
-
+    # Output plugin displaying components' bump levels and next version info
     class Info < Output
-
       # Process commits info
       #
-      # Parameters::
-      # * *commits_info* (Array< Hash<Symbol, Object> >): List of commits info:
-      #   * *components_bump_levels* (Hash<String or nil, Integer>): Set of bump levels (0: patch, 1: minor, 2: major) per component name (nil for global)
-      #   * *commit* (Git::Object::Commit): Corresponding git commit
+      # @param commits_info [Array<Hash{Symbol => Object}>] List of commits info:
+      #   - +:components_bump_levels+ [Hash\\{String or nil => Integer}] Set of bump levels (0: patch, 1: minor, 2: major) per component name (nil for global)
+      #   - +:commit+ [Git::Object::Commit] Corresponding git commit
       def process(commits_info)
         # Display bump levels per component
         bumps_per_component = commits_info.inject({}) do |components_bump_levels, commit_info|
-          components_bump_levels.merge(commit_info[:components_bump_levels]) do |_component, bump_level_1, bump_level_2|
-            [bump_level_1, bump_level_2].max
+          components_bump_levels.merge(commit_info[:components_bump_levels]) do |_component, bump_level1, bump_level2|
+            [bump_level1, bump_level2].max
           end
         end
         bumps_per_component.each do |component, bump_level|
@@ -38,14 +36,11 @@ module SemVerComponents
         if global_bump_level.nil?
           puts 'No next version'
         else
-          puts "Next global version#{@local_git.on_release_branch? ? '' : ' (not on release branch)'}: #{
+          puts "Next global version#{' (not on release branch)' unless @local_git.on_release_branch?}: #{
             Semver.next_version_from(Semver.version_from_git_ref(@local_git.git_from), global_bump_level, pre_release: !@local_git.on_release_branch?)
           }"
         end
       end
-
     end
-
   end
-
 end
