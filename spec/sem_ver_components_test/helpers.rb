@@ -12,15 +12,18 @@ module SemVerComponentsTest
     # * *commits* (Array< Hash<Symbol, Object> >): List of commits to be created, in order:
     #   * *comment* (String): The commit message
     #   * *files* (Hash<String, String>): Files to be part of the commit, mapped by path (relative to the repository root)
+    # * *default_branch* (String or nil): Name of an extra branch to be created on the last commit, so that it can be used as a git ref [default: nil]
     # * *block* (Proc): Code to be executed with the created repository:
     #   * *git_repo* (String): Path of the created git repository
-    def with_git_repo(commits:, &block)
+    def with_git_repo(commits:, default_branch: nil, &block)
       Dir.mktmpdir do |temp_dir|
         git_repo = File.join(temp_dir, 'git_repo')
         git = Git.init(git_repo)
         git.config_set('user.email', 'test@example.com')
         git.config_set('user.name', 'Test User')
         commits.each { |commit| create_git_commit(git, git_repo, commit) }
+        # Create the extra branch on the last commit if it does not exist already (no checkout needed, the ref is enough)
+        git.branch_new(default_branch) unless default_branch.nil? || git.branch_list.map(&:short_name).include?(default_branch)
         block.call(git_repo)
       end
     end
@@ -32,20 +35,16 @@ module SemVerComponentsTest
     # Parameters::
     # * *comment* (String): The commit message of the change, including any enclosing markers like in '[feat] Add a feature'
     # * *files* (Hash<String, String>): Files to be part of the change commit, mapped by path (relative to the repository root) [default: { 'change.txt' => 'A change' }]
+    # * *default_branch* (String or nil): Name of an extra branch to be created on the last commit, so that it can be used as a git ref [default: nil]
     # * *block* (Proc): Code to be executed with the created repository:
     #   * *git_repo* (String): Path of the created git repository
-    def with_git_change(comment:, files: { 'change.txt' => 'A change' }, &block)
+    def with_git_change(comment:, files: { 'change.txt' => 'A change' }, default_branch: nil, &block)
       with_git_repo(
         commits: [
-          {
-            comment: 'Initial commit',
-            files: { 'README.md' => 'Test repository' }
-          },
-          {
-            comment: comment,
-            files: files
-          }
+          { comment: 'Initial commit', files: { 'README.md' => 'Test repository' } },
+          { comment: comment, files: files }
         ],
+        default_branch: default_branch,
         &block
       )
     end
