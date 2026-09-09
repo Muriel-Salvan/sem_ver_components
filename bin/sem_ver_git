@@ -1,10 +1,6 @@
 #!/usr/bin/env ruby
 require 'optparse'
-require 'sem_ver_components/plugins'
-require 'sem_ver_components/local_git'
-require 'sem_ver_components/version'
-require 'sem_ver_components/output'
-require 'sem_ver_components/git_hosting'
+require 'sem_ver_components'
 
 # Default values
 git_repo = '.'
