@@ -1,6 +1,6 @@
-require 'English'
 require 'fileutils'
 require 'git'
+require 'stringio'
 require 'tmpdir'
 
 module SemVerComponentsTest
@@ -50,13 +50,33 @@ module SemVerComponentsTest
     end
 
     # Run a CLI of the gem with given arguments, and expect it to succeed
+    # The executable file is loaded in isolation: it is evaluated in a fresh anonymous module scope, with temporary
+    # ARGV, $stdout and $PROGRAM_NAME, all restored afterwards.
+    # This way the CLI's code is executed in the test process, so its code coverage is tracked by SimpleCov, while its
+    # stdout and exit status can still be validated by unit tests.
     #
     # @param args [String] Command-line arguments to be given to the CLI
     # @return [String] The CLI's standard output
     def run_cli(args)
       bin_sem_ver_git = File.expand_path('../../bin/sem_ver_git', __dir__)
-      stdout = `bundle exec ruby "#{bin_sem_ver_git}" #{args}`
-      expect($CHILD_STATUS.exitstatus).to eq(0)
+      exit_status = 0
+      begin
+        original_argv = ARGV.dup
+        original_program_name = $PROGRAM_NAME
+        original_stdout = $stdout
+        ARGV.replace(args.shellsplit)
+        $PROGRAM_NAME = bin_sem_ver_git
+        $stdout = StringIO.new
+        load bin_sem_ver_git, true
+      rescue SystemExit => e
+        exit_status = e.status
+      ensure
+        stdout = $stdout.string
+        $stdout = original_stdout
+        $PROGRAM_NAME = original_program_name
+        ARGV.replace(original_argv)
+      end
+      expect(exit_status).to eq(0)
       stdout
     end
 
