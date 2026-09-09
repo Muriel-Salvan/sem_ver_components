@@ -1,5 +1,4 @@
 require 'time'
-require 'sem_ver_components/semver'
 
 module SemVerComponents
   module Outputs

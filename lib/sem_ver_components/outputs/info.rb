@@ -1,5 +1,3 @@
-require 'sem_ver_components/semver'
-
 module SemVerComponents
   # Namespace for all output plugins
   module Outputs
