@@ -32,7 +32,8 @@ module SemVerComponentsTest
     # This is a convenient wrapper on top of with_git_repo to test a single change on a fresh repository.
     # The repository is deleted after the block execution.
     #
-    # @param comment [String] The commit message of the change, including any enclosing markers like in '[feat] Add a feature'
+    # @param comment [String] The commit message of the change, including any markers like in '[feat] Some change',
+    #   '[feat(customers)] Some change', 'feat: Some change' or 'feat(customers): Some change'
     # @param files [Hash{String => String}] Files to be part of the change commit, mapped by path (relative to the repository root)
     # @param default_branch [String, nil] Name of an extra branch to be created on the last commit, so that it can be used as a git ref
     # @yield Code to be executed with the created repository
