@@ -1,2 +1,5 @@
 # As this is a gem, don't commit Gemfile.lock
 Gemfile.lock
+
+# SimpleCov is used to generate code coverage reports. Don't commit generated coverage files.
+/coverage/
