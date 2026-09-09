@@ -18,7 +18,8 @@ module SemVerComponents
         )
         git_url = @local_git.git.remote_list.find { |remote| remote.name == 'origin' }.url.first
         git_url = git_url[0..-5] if git_url.end_with?('.git')
-        # Reference merge commits: merged commits will not be part of the changelog, but their bump level will be taken into account when reporting the merge commit.
+        # Reference merge commits: merged commits will not be part of the changelog,
+        # but their bump level will be taken into account when reporting the merge commit.
         # List of merged commits' shas, per merge commit sha.
         # Hash< String, Array< String > >
         merge_commits = {}
@@ -52,8 +53,8 @@ module SemVerComponents
               # So we can ignore them.
               next if merged_commit_info.nil?
 
-              components_bump_levels = components_bump_levels.merge(merged_commit_info[:components_bump_levels]) do |_component, bump_level_1, bump_level_2|
-                [bump_level_1, bump_level_2].max
+              components_bump_levels = components_bump_levels.merge(merged_commit_info[:components_bump_levels]) do |_component, bump_level1, bump_level2|
+                [bump_level1, bump_level2].max
               end
             end
           end

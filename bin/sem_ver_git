@@ -22,7 +22,8 @@ OptionParser.new do |opts|
   opts.on(
     '-g',
     '--git_hosting GIT_HOSTING',
-    "Specify which kind of git hosting is used. Used to format URLs to commits and comparisons. Possible values are #{git_hosting_plugins.list.sort.join(', ')}. (defaults to #{git_hosting})"
+    'Specify which kind of git hosting is used. Used to format URLs to commits and comparisons. ' \
+      "Possible values are #{git_hosting_plugins.list.sort.join(', ')}. (defaults to #{git_hosting})"
   ) do |git_hosting_str|
     git_hosting = git_hosting_str.to_sym
   end

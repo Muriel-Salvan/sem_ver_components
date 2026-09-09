@@ -13,8 +13,8 @@ module SemVerComponents
       def process(commits_info)
         # Display bump levels per component
         bumps_per_component = commits_info.inject({}) do |components_bump_levels, commit_info|
-          components_bump_levels.merge(commit_info[:components_bump_levels]) do |_component, bump_level_1, bump_level_2|
-            [bump_level_1, bump_level_2].max
+          components_bump_levels.merge(commit_info[:components_bump_levels]) do |_component, bump_level1, bump_level2|
+            [bump_level1, bump_level2].max
           end
         end
         bumps_per_component.each do |component, bump_level|

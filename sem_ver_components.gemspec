@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
     spec.executables << File.basename(exec_name)
   end
 
+  spec.required_ruby_version = '>= 3.1'
   spec.add_dependency 'git', '~> 5.4'
 
   spec.metadata['rubygems_mfa_required'] = 'true'

@@ -15,11 +15,11 @@ module SemVerComponents
       # Get the URL to compare 2 tags
       #
       # @param git_url [String] The git URL
-      # @param tag_1 [String] The first tag
-      # @param tag_2 [String] The second tag
+      # @param tag1 [String] The first tag
+      # @param tag2 [String] The second tag
       # @return [String] The URL to compare the 2 tags
-      def compare_url(git_url, tag_1, tag_2)
-        "#{public_url(git_url)}/compare/commits?targetBranch=refs%2Ftags%2F#{tag_1}&sourceBranch=refs%2Ftags%2F#{tag_2}"
+      def compare_url(git_url, tag1, tag2)
+        "#{public_url(git_url)}/compare/commits?targetBranch=refs%2Ftags%2F#{tag1}&sourceBranch=refs%2Ftags%2F#{tag2}"
       end
 
       private

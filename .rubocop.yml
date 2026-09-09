@@ -1,0 +1,68 @@
+plugins: rubocop-rspec
+
+AllCops:
+  NewCops: enable
+
+# Be consistent on indentations
+Layout/LineEndStringConcatenationIndentation:
+  EnforcedStyle: indented
+
+# It's ok to have longer lines
+Layout/LineLength:
+  Max: 160
+
+# Be consistent on indentations
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# Be consistent on indentations
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+# It's ok to have long methods while keeping readability
+Metrics/AbcSize:
+  Max: 120
+
+# It's ok to have long methods while keeping readability
+Metrics/BlockLength:
+  Max: 40
+
+# It's ok to have long methods while keeping readability
+Metrics/CyclomaticComplexity:
+  Max: 35
+
+# It's ok to have long methods while keeping readability
+Metrics/MethodLength:
+  Max: 80
+
+# kwargs should not count towards max parameters list
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+# It's ok to have long methods while keeping readability
+Metrics/PerceivedComplexity:
+  Max: 35
+
+# These tests are not describing any class or module
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/scenarios/cli/*_spec.rb'
+    - 'spec/scenarios/code_quality_spec.rb'
+    - 'spec/scenarios/documentation_spec.rb'
+    - 'spec/scenarios/packaging_spec.rb'
+
+# It is ok to have long specs while keeping readability
+RSpec/ExampleLength:
+  Max: 25
+
+# It is ok to have long specs while keeping readability
+RSpec/MultipleExpectations:
+  Max: 10
+
+# I don't want to pollute my code with something that should be integrated in the language
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+# I don't want to pollute my code with something that should be integrated in the language
+Style/MutableConstant:
+  Enabled: false
