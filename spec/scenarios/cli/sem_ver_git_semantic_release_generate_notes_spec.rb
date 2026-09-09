@@ -28,7 +28,7 @@ RSpec.describe 'sem_ver_git CLI' do
       it "generates release notes for a new #{expected_bump} version when using #{comment}" do
         with_git_change(comment: comment) do |git_repo|
           # This output plugin generates URLs to the git hosting, so give the git repository an origin remote
-          Git.open(git_repo).add_remote('origin', 'https://github.com/test/test_repo.git')
+          Git.open(git_repo).remote_add('origin', 'https://github.com/test/test_repo.git')
           # Generate release notes using the semantic_release_generate_notes output plugin
           stdout = run_cli("--repo \"#{git_repo}\" --output semantic_release_generate_notes")
 
