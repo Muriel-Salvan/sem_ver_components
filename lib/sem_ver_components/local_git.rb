@@ -36,6 +36,7 @@ module SemVerComponents
         # Analyze the message
         # Always consider a minimum of global patch bump per commit.
         components_bump_levels = { nil => [0] }
+        # TODO: Extract also tags of the form /^feat: .+$/, with feat, feature, break, breaking. Enahnce existing unit tests to cover those cases as well.
         git_commit.message.scan(/\[([^\]]+)\]/).flatten(1).each do |commit_label|
           commit_type, component = commit_label =~ /^(.+)\((.+)\)$/ ? [::Regexp.last_match(1), ::Regexp.last_match(2)] : [commit_label, nil]
           components_bump_levels[component] = [] unless components_bump_levels.key?(component)
