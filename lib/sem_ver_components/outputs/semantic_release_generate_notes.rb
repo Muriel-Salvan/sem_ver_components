@@ -30,7 +30,7 @@ module SemVerComponents
 
           git_commit_sha = git_commit.sha
           merge_commits[git_commit_sha] =
-            @local_git.git.log(nil).between(@local_git.git.merge_base(*git_commit_parents.map(&:sha)).first.sha, git_commit_sha).execute[1..].map(&:sha)
+            @local_git.git.log(nil).between(@local_git.git.merge_base(*git_commit_parents.map(&:sha)).first, git_commit_sha).execute[1..].map(&:sha)
         end
         commits_to_ignore = merge_commits.values.flatten(1).sort.uniq
         # Group commits per bump level, per component
