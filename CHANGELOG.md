@@ -1,3 +1,9 @@
+# [v1.0.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v1.0.0...v1.0.1) (2026-09-10 12:46:52)
+
+### Patches
+
+* [fix: Fix the missing Zeitwerk's module.](https://github.com/Muriel-Salvan/sem_ver_components/commit/d233897bda70e68298c37702503e15796ab3799e)
+
 # [v1.0.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.4.1...v1.0.0) (2026-09-10 08:50:32)
 
 ## Global changes
