@@ -1,3 +1,31 @@
+# [v1.0.0](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.4.1...v1.0.0) (2026-09-10 08:50:32)
+
+## Global changes
+### Patches
+
+* [fix: correct merge base sha extraction in semantic_release_generate_notes](https://github.com/Muriel-Salvan/sem_ver_components/commit/de365f29fa2b036883a00253265e72fc30536f3c)
+* [ci: enable tests, add Codecov, and use trusted RubyGems publishing](https://github.com/Muriel-Salvan/sem_ver_components/commit/4cfe99aa41d0668e708bc003be75df167a9a3025)
+* [feat(spec): add CLI options tests and refactor run_cli helper](https://github.com/Muriel-Salvan/sem_ver_components/commit/2df23805a7ccec4888071470576c8e68d0551e5c)
+* [refactor: use Zeitwerk for autoloading instead of manual requires](https://github.com/Muriel-Salvan/sem_ver_components/commit/0ca2c7b169aeb4dba3a8235b7c86327f56c01271)
+
+### Features
+
+* [feat: support conventional commit tags in commit messages [Feature]](https://github.com/Muriel-Salvan/sem_ver_components/commit/a918048e1a737e2e203798cd22ae276fac8db9fc)
+* [feat: support main as a release branch alongside master](https://github.com/Muriel-Salvan/sem_ver_components/commit/4659cd52e0cd859c8667d0c9920d4a0b4e9e59ab)
+
+### Breaking changes
+
+* [Add tests](https://github.com/Muriel-Salvan/sem_ver_components/commit/4956c5c1dce0062476121ffba04e90231f6f1642)
+
+## Changes for spec
+### Features
+
+* [feat(spec): add CLI options tests and refactor run_cli helper](https://github.com/Muriel-Salvan/sem_ver_components/commit/2df23805a7ccec4888071470576c8e68d0551e5c)
+
+### Patches
+
+* [Add tests](https://github.com/Muriel-Salvan/sem_ver_components/commit/4956c5c1dce0062476121ffba04e90231f6f1642)
+
 # [v0.4.1](https://github.com/Muriel-Salvan/sem_ver_components/compare/v0.4.0...v0.4.1) (2026-03-23 10:52:12)
 
 ### Patches
